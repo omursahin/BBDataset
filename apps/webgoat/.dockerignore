@@ -1,4 +1,21 @@
-**
+# ============================================================================
+# MODIFIED: Updated for multi-stage build support
+# Allow source files for compilation inside Docker
+# ============================================================================
 
-!/target
-!/config/desktop
+# Exclude build outputs and temp files
+.git
+.gitignore
+*.md
+.github
+.idea
+*.iml
+node_modules
+.vscode
+
+# Exclude test and unnecessary files
+**/test-results
+**/target/test-classes
+
+# Allow source files needed for build
+# (mvnw, pom.xml, src, config are needed for Docker build)

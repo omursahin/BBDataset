@@ -1,0 +1,12 @@
+services:
+  webgoat:
+    build:
+      context: ../apps/webgoat
+      dockerfile: ../../dockerfiles/webgoat.dockerfile
+    image: webgoat/webgoat:latest
+    restart: on-failure
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      TZ: "Europe/Amsterdam"
