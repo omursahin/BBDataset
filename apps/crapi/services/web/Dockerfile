@@ -36,6 +36,8 @@ COPY ./nginx.ssl.conf.template /etc/nginx/conf.d/default.ssl.conf.template
 RUN mkdir -p /app
 COPY ./certs /app/certs
 RUN echo "daemon off;" >> /usr/local/openresty/nginx/conf/nginx.conf
+# Fix Windows CRLF line endings and set execute permissions
+RUN sed -i 's/\r$//' /etc/nginx/nginx-wrapper.sh && chmod +x /etc/nginx/nginx-wrapper.sh
 EXPOSE 80
 EXPOSE 443
 

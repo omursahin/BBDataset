@@ -20,7 +20,8 @@ COPY gradle.properties ./
 # Eat the expected build failure since no source code has been copied yet
 RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 COPY src src
-RUN gradle build
+# Skip spotless check for Docker build
+RUN gradle build -x spotlessCheck
 RUN gradle bootJar
 
 # Main Image
@@ -44,4 +45,7 @@ ENV JAVA_TOOL_OPTIONS="-Xmx128m"
 COPY jwks.json /app/default_jwks.json
 COPY entrypoint.sh /entrypoint.sh
 COPY health.sh /app/health.sh
+# Fix Windows CRLF line endings and set execute permissions
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh && \
+    sed -i 's/\r$//' /app/health.sh && chmod +x /app/health.sh
 CMD [ "/entrypoint.sh"]

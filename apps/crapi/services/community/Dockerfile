@@ -37,6 +37,8 @@ RUN apk update && apk add --no-cache curl
 COPY --from=builder /dist/main /app/main
 COPY certs /app/certs
 COPY health.sh /app/health.sh
+# Fix Windows CRLF line endings and set execute permissions
+RUN sed -i 's/\r$//' /app/health.sh && chmod +x /app/health.sh
 RUN ls -al /app
 
 ARG SERVER_PORT

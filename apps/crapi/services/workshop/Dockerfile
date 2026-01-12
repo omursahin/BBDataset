@@ -42,6 +42,9 @@ RUN apk update && apk add --no-cache postgresql-libs curl cairo
 RUN pip install --no-index --find-links=/app/wheels -r requirements.txt
 COPY ./certs /app/certs
 COPY health.sh /app/health.sh
+# Fix Windows CRLF line endings and set execute permissions
+RUN sed -i 's/\r$//' /app/health.sh && chmod +x /app/health.sh && \
+    sed -i 's/\r$//' /app/runner.sh && chmod +x /app/runner.sh
 ARG SERVER_PORT
 EXPOSE ${SERVER_PORT}
 CMD ["/app/runner.sh"]
