@@ -1,0 +1,27 @@
+# ============================================================================
+# MODIFIED: vampi docker-compose moved to dockerfiles directory
+# Build contexts updated to work from dockerfiles directory
+# ============================================================================
+
+services:
+  vampi-secure:
+    build:
+      context: ../apps/vampi
+      dockerfile: ../../dockerfiles/vampi.dockerfile
+    container_name: vampi-secure
+    image: vampi/vampi:secure
+    ports:
+      - "5001:5000"
+    environment:
+      - vulnerable=0
+
+  vampi-vulnerable:
+    build:
+      context: ../apps/vampi
+      dockerfile: ../../dockerfiles/vampi.dockerfile
+    container_name: vampi-vulnerable
+    image: vampi/vampi:vulnerable
+    ports:
+      - "5002:5000"
+    environment:
+      - vulnerable=1
